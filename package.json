@@ -1,0 +1,21 @@
+{
+  "name": "node_learning",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Node",
+    "Learning"
+  ],
+  "author": "Anurag",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.6.1",
+    "msnodesqlv8": "^4.2.1",
+    "mssql": "^11.0.1"
+  }
+}
