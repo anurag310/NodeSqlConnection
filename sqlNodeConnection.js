@@ -1,6 +1,7 @@
 const sql = require("mssql");
 const express = require("express");
 const app = express();
+const { Sequelize, DataTypes } = require('sequelize');
 const port = 3000;
 app.listen(port,()=>{
     console.log(`server is running on ${port}`);
@@ -63,3 +64,52 @@ app.get('/api/getRecords', getDbUSerAsyncFunction);
     }
 
 })
+
+
+app.put('/api/updateRecords/:id',async (req,res)=>{
+    const { Name,Description,Author}=req.body;
+    const {id} = req.params;
+    if((Name==null || Name=="")&&(Description==null || Description == "")&&(Author==null ||Author=="")){
+        res.status(400).send({message:"Please fill all the fields"});
+    }
+    const pool = await sql.connect(config);
+    const result = await pool.request().input('Name',sql.VarChar,Name)
+    .input('Description',sql.VarChar,Description).input('Author',sql.VarChar,Author)
+    .input('id', sql.Int, id)
+    .query('Update Blogs set Name =@Name,Description =  @Description, Author = @Author where Id= @id')
+    if (result.rowsAffected[0] > 0) {
+        // If the update was successful
+        res.status(200).json({ message: 'Updated Successfully' });
+    } else {
+        // If no rows were affected (i.e., no blog found with the provided id)
+        res.status(404).send({ message: 'Blog not found' });
+    }
+    sql.close();
+})
+
+// const Register = sequelize.define('Register', {
+//     Id: {
+//         type: DataTypes.INTEGER,        // Typically an auto-incremented integer for an ID
+//         primaryKey: true,
+//         autoIncrement: true
+//     },
+//     username: {
+//         type: DataTypes.STRING,         // Correct usage for a string field
+//         allowNull: false
+//     },
+//     Email: {
+//         type: DataTypes.STRING,         // Use STRING for email fields
+//         allowNull: false,
+//         validate: {
+//             isEmail: true               // Optional: Sequelize validation for email format
+//         }
+//     },
+//     Password: {
+//         type: DataTypes.STRING,         // Use STRING for storing passwords (ideally hashed)
+//         allowNull: false
+//     }
+// }, {
+//     tableName: 'Register',
+//     timestamps: false                   // No createdAt/updatedAt fields
+// });
+
