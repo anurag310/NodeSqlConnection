@@ -10,8 +10,8 @@ app.use(express.json());
 const config = {
     server: 'localhost',          // Use 'localhost' or '127.0.0.1' (no instance name)
     port: 1433,                   // Ensure the correct port is used, or find dynamic port from SQL Server Configuration Manager
-    user: 'prapti',
-    password: 'prapti@123',
+    user: '//',
+    password: '//',
     database: 'BlogsDB',
     options: {
         enableArithAbort: true,
